@@ -23,6 +23,19 @@ const Cart = (props) => {
   const orderHandler = () => {
     setIsCheckOut(true);
   };
+  ////////////////////////////////////////////////რექვესტი სერვერზე შენახვის ////////////////////////
+
+  const submitOrderHandler = (userData) => {
+    fetch("https://meals-http-c4252-default-rtdb.firebaseio.com/orders.json", {
+      method: "POST", //ჩაწერა
+      body: JSON.stringify({
+        // რა მონაცემებსაც გადავცემ 1 user : userdatadan შეივსება 2 orderedItems :  cartCtx.items კონტექსტში შენახულ მონიშნულ საჭმელებს
+        user: userData,
+        orderedItems: cartCtx.items,
+      }),
+    });
+  };
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const cartItems = (
     <ul className={classes["cart-items"]}>
       {cartCtx.items.map((item) => (
@@ -57,7 +70,9 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckOut && <Checkout onCancel={props.onClose} />}
+      {isCheckOut && (
+        <Checkout onSubmit={submitOrderHandler} onCancel={props.onClose} />
+      )}
       {!isCheckOut && modalActions}
     </Modal>
   );
