@@ -15,6 +15,10 @@
   text-align: center;
   color: wheat;
 }
+.mealError {
+  text-align: center;
+  color: red;
+}
 
 @keyframes meals-appear {
   from {
