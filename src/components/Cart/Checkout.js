@@ -18,6 +18,7 @@ export const Checkout = (props) => {
   const streetInputRef = useRef();
   const postalCodeInputRef = useRef();
   const cityInputRef = useRef();
+
   const confirmHandler = (event) => {
     event.preventDefault();
     const enteredName = nameInputRef.current.value;
@@ -25,20 +26,25 @@ export const Checkout = (props) => {
     const enteredPostalCode = postalCodeInputRef.current.value;
     const enteredCity = cityInputRef.current.value;
 
+    const validName = isEmpty(enteredName);
+    const validStreet = isEmpty(enteredStreet);
+    const validCity = isEmpty(enteredCity);
+    const validPostalCode = isFiveCahrs(enteredPostalCode);
+
+    const formValid = validName && validStreet && validCity && validPostalCode;
+
     setFormIsValid({
       name: isEmpty(enteredName),
       street: isEmpty(enteredStreet),
       city: isEmpty(enteredCity),
       postalCode: isFiveCahrs(enteredPostalCode),
     });
-    const formValid =
-      formIsValid.name &&
-      formIsValid.street &&
-      formIsValid.city &&
-      formIsValid.postalCode;
+
+    console.log(formIsValid);
     if (!formValid) {
       return;
     }
+
     props.onSubmit({
       name: enteredName,
       street: enteredStreet,
